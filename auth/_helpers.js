@@ -19,11 +19,21 @@ function createUser(req) {
   return client.query(text, values);
 }
 
-function getUser(username) {
-  return 'Query';
+function getUser(email) {
+  const text = 'SELECT * FROM auth.users WHERE email = $1 FETCH FIRST ROW ONLY';
+  const values = [email];
+
+  return client.query(text, values);
+}
+
+function comparePassword(userPassword, databasePassword) {
+  const bool = bcrypt.compareSync(userPassword, databasePassword);
+  if (!bool) throw new Error('Email and password combination does not exist');
+  else return true;
 }
 
 module.exports = {
   createUser,
-  getUser
+  getUser,
+  comparePassword
 };
