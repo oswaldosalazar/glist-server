@@ -8,7 +8,6 @@
 
     // register routes
     app.use('/', routes);
-    // app.use('/auth', authRoutes);
-    console.log('Hello world');
+    app.use('/auth', authRoutes);
   };
 })(module.exports);
