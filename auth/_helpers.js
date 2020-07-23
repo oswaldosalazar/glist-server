@@ -32,8 +32,43 @@ function comparePassword(userPassword, databasePassword) {
   else return true;
 }
 
+function ensureAuthenticated(req, res, next) {
+  if (!req.headers || !req.headers.authorization) {
+    return res.status(400).json({
+      status: 'Please log in'
+    });
+  }
+
+  const header = req.headers.authorization.split(' ');
+  const token = header[1];
+
+  localAuth.decodeToken(token, (err, payload) => {
+    if (err) {
+      return res.status(401).json({
+        status: 'Token has expired'
+      });
+    } else {
+      const text =
+        'SELECT * FROM auth.users WHERE email = $1 FETCH FIRST ROW ONLY';
+      const values = [payload.email];
+
+      return client
+        .query(text, values)
+        .then(user => {
+          next();
+        })
+        .catch(err => {
+          res.status(500).json({
+            status: 'error'
+          });
+        });
+    }
+  });
+}
+
 module.exports = {
   createUser,
   getUser,
-  comparePassword
+  comparePassword,
+  ensureAuthenticated
 };
