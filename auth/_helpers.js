@@ -51,7 +51,7 @@ function ensureAuthenticated(req, res, next) {
       const text =
         'SELECT * FROM auth.users WHERE id = $1 FETCH FIRST ROW ONLY';
       const values = [payload.sub];
-      console.log(payload.sub);
+
       return client
         .query(text, values)
         .then(user => {
