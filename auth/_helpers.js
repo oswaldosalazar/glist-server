@@ -49,9 +49,9 @@ function ensureAuthenticated(req, res, next) {
       });
     } else {
       const text =
-        'SELECT * FROM auth.users WHERE email = $1 FETCH FIRST ROW ONLY';
-      const values = [payload.email];
-
+        'SELECT * FROM auth.users WHERE id = $1 FETCH FIRST ROW ONLY';
+      const values = [payload.sub];
+      console.log(payload.sub);
       return client
         .query(text, values)
         .then(user => {
