@@ -10,11 +10,16 @@ client.connect();
 
 function createUser(req) {
   const salt = bcrypt.genSaltSync();
-  const hash = bcrypt.hashSync(req.body.passwd, salt);
+  const hashedPassword = bcrypt.hashSync(req.body.passwd, salt);
   const timestamp = moment();
   const text =
-    'INSERT INTO auth.users(email, passwd, created_at) VALUES($1, $2, $3) RETURNING *';
-  const values = [req.body.email, hash, timestamp];
+    'INSERT INTO auth.users(email, passwd, first_name, last_name) VALUES($1, $2, $3, $4) RETURNING *';
+  const values = [
+    req.body.email,
+    hashedPassword,
+    req.body.first_name,
+    req.body.last_name
+  ];
 
   return client.query(text, values);
 }
