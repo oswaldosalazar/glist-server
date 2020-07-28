@@ -7,6 +7,7 @@
   const bodyParser = require('body-parser');
   const flash = require('connect-flash');
   const morgan = require('morgan');
+  const cors = require('cors');
 
   // load environment variables
   require('dotenv').config();
@@ -16,9 +17,8 @@
     app.set('view engine', 'html');
 
     // app middleware
-    if (process.env.NODE_ENV !== 'test') {
-      app.use(morgan('dev'));
-    }
+
+    app.use(morgan('dev'));
 
     // cross domain requests
 
@@ -34,5 +34,6 @@
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(flash());
+    app.use(cors());
   };
 })(module.exports);
