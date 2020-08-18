@@ -8,11 +8,11 @@ router.post('/signup', async (req, res, next) => {
   try {
     const dbUser = await authHelpers.createUser(req);
     const token = localAuth.encodeToken(dbUser.rows[0]);
-    const userFirstName = dbUser.rows[0].first_name;
+    const firstName = dbUser.rows[0].first_name;
     res.status(200).json({
       status: 'success',
       token,
-      userFirstName
+      firstName
     });
   } catch (err) {
     res.status(500).json({
@@ -33,11 +33,11 @@ router.post('/login', async (req, res, next) => {
     );
     if (verifiedUser) {
       const token = localAuth.encodeToken(dbUser.rows[0]);
-      const userFirstName = dbUser.rows[0].first_name;
+      const firstName = dbUser.rows[0].first_name;
       res.status(200).json({
         status: 'success',
         token,
-        userFirstName
+        firstName
       });
     }
   } catch (err) {
