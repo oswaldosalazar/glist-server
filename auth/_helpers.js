@@ -11,7 +11,7 @@ client.connect();
 function createUser(req) {
   const salt = bcrypt.genSaltSync();
   const hashedPassword = bcrypt.hashSync(req.body.passwd, salt);
-  const timestamp = moment();
+  // const timestamp = moment();
   const text =
     'INSERT INTO auth.users(email, passwd, first_name, last_name) VALUES($1, $2, $3, $4) RETURNING *';
   const values = [
