@@ -9,8 +9,9 @@ const client = new Client(connectionString.development.connection);
 client.connect();
 
 function addList(req) {
+  console.log(req.body);
   const text =
-    'INSERT INTO auth.lists(user_id, name, picked_items, pending_items, shared_with) VALUES($1, $2, $3, $4) RETURNING *';
+    'INSERT INTO auth.lists(user_id, name, picked_items, pending_items, shared_with) VALUES($1, $2, $3, $4, $5) RETURNING *';
   const values = [
     req.body.user_id,
     req.body.name,
